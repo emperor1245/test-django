@@ -6,16 +6,17 @@ pipeline{
         git branch: 'main', url: 'https://github.com/emperor1245/test-django'
       }
     }
-    stage('Login to ECR'){
-      steps{
-        withAWS(region: 'us-east-1', credentials: 'aws-creds'){
+    stage('Login to ECR') {
+      steps {
+        withAWS(region: 'us-east-1', credentials: 'aws-creds') {
           powershell '''
-          $password = aws ecr get-login-password --region us-east-1
-          docker login --username AWS --password $password 314146306183.dkr.ecr.us-east-1.amazonaws.com/test
+            $password = aws ecr get-login-password --region us-east-1
+            docker login --username AWS --password $password 314146306183.dkr.ecr.us-east-1.amazonaws.com
           '''
         }
       }
     }
+
     stage('Build docker image'){
       steps{
         powershell '''
